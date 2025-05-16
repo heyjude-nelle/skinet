@@ -33,7 +33,7 @@ public class ProductsController(IGenericRepository<Product> repo) : BaseApiContr
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
-        repo.Add(product);
+        await repo.Add(product);
         
         if (await repo.SaveAllAsync())
         {
@@ -49,7 +49,7 @@ public class ProductsController(IGenericRepository<Product> repo) : BaseApiContr
        if (product.Id != id || !ProductExists(id))
             return BadRequest(new { message = "Cannot update this product" });
 
-        repo.Update(product);
+        await repo.Update(product);
 
         if (await repo.SaveAllAsync())
         {
@@ -70,7 +70,7 @@ public class ProductsController(IGenericRepository<Product> repo) : BaseApiContr
             return NotFound(new { message = "Product not found" });
         }
 
-        repo.Remove(product);
+        await repo.Remove(product);
 
         if (await repo.SaveAllAsync())
         {
